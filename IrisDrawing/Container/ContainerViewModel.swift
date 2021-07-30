@@ -23,9 +23,9 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     }
 
     @Published var tool: DrawingTool?
-    @Published var strokeColor: UIColor?
-    @Published var fillColor: UIColor?
-    @Published var strokeWidth: CGFloat?
+    @Published var strokeColor: UIColor = UIColor.black
+    @Published var fillColor: UIColor = UIColor.white
+    @Published var strokeWidth: CGFloat = 0
 
     /// Instance of `TextTool` for which we are the delegate, so we can respond
     /// to relevant UI events
@@ -49,6 +49,8 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
         PentagonTool(),
         AngleTool(),
     ] }()
+
+    let strokeWidths: [CGFloat] = [1, 3, 5, 8, 10, 16, 20]
 
     // MARK: - External Dependencies
 

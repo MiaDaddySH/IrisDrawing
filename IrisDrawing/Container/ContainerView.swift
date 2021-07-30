@@ -83,6 +83,14 @@ struct ContainerView: View {
                     }
                 ).padding()
 
+                Picker(selection: $viewModel.strokeWidth, label: Image(systemName: "pencil.tip.crop.circle")) {
+                    ForEach(viewModel.strokeWidths, id: \.self) {
+                        Text("\(Int($0))")
+                    }
+                }
+                .pickerStyle(MenuPickerStyle())
+                .padding()
+
                 Picker("Tools", selection: $viewModel.selectedTool) {
                     ForEach(viewModel.tools, id: \.self.name) {
                         Text($0.name)
