@@ -9,14 +9,7 @@ import SwiftUI
 import UIKit
 
 protocol DrawingViewDelegate: AnyObject {
-    /// Called when evaluating javascript failed.
-    ///
-    /// - Parameter error: Any error that occurred while trying to evaluate javascript.
-    func evaluateJavaScriptDidFail(_ error: Error)
-
-    func undoButtonEnabled(_ enabled: Bool)
-
-    func redoButtonEnabled(_ enabled: Bool)
+    func drawingView(didInit drawingOperationStack:DrawingOperationStack)
 
     func drawingView(didSwitchTo tool: DrawingTool)
     func drawingView(didStartDragWith tool: DrawingTool)
@@ -37,19 +30,31 @@ struct DrawingView: UIViewRepresentable {
     @Binding var strokeColor: Color
     @Binding var fillColor: Color
     @Binding var strokeWidth: CGFloat
-    
+
+    private var undo: (() -> Void)?
+    private var redo: (() -> Void)?
+    private var delete: (() -> Void)?
+
     // MARK: - Lifecycle
 
     init(
+        delegate: DrawingViewDelegate? = nil,
         tool: Binding<DrawingTool?>,
         strokeColor: Binding<Color>,
         fillColor: Binding<Color>,
-        strokeWidth: Binding<CGFloat>
+        strokeWidth: Binding<CGFloat>,
+        undo: (() -> Void)? = nil,
+        redo: (() -> Void)? = nil,
+        delete: (() -> Void)? = nil
     ) {
+        self.delegate = delegate
         _tool = tool
         _strokeColor = strokeColor
         _fillColor = fillColor
         _strokeWidth = strokeWidth
+        self.undo = undo
+        self.redo = redo
+        self.delegate = delegate
     }
 
     // MARK: - Public Functions
@@ -82,17 +87,30 @@ struct DrawingView: UIViewRepresentable {
         // MARK: - External Dependencies
 
         private weak var delegate: DrawingViewDelegate?
+        private var undo: (() -> Void)?
+        private var redo: (() -> Void)?
+        private var delete: (() -> Void)?
 
         // MARK: - Lifecycle
 
-        init(delegate: DrawingViewDelegate? = nil) {
+        init(
+            delegate: DrawingViewDelegate? = nil,
+            undo: (() -> Void)? = nil,
+            redo: (() -> Void)? = nil,
+            delete: (() -> Void)? = nil
+        ) {
             self.delegate = delegate
+            self.undo = undo
+            self.redo = redo
+            self.delete = delete
         }
 
         // MARK: - DrawsanaViewDelegate Conformance
 
         func drawsanaView(_ drawsanaView: DrawsanaView, didSwitchTo tool: DrawingTool) {
 //            toolButton.setTitle(drawingView.tool?.name ?? "", for: .normal)
+            let drawingOperationStack = drawsanaView.operationStack
+            delegate?.drawingView(didInit: drawingOperationStack)
             delegate?.drawingView(didSwitchTo: tool)
         }
 

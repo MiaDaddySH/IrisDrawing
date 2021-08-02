@@ -23,7 +23,7 @@ struct ContainerView: View {
         VStack(spacing: 0) {
             HStack {
                 Button(
-                    action: { viewModel.showTools() },
+                    action: { viewModel.delete() },
                     label: {
                         Image(systemName: "trash.fill")
                     }
@@ -38,6 +38,7 @@ struct ContainerView: View {
             }
 
             DrawingView(
+                delegate:viewModel,
                 tool: $viewModel.tool,
                 strokeColor: $viewModel.strokeColor,
                 fillColor: $viewModel.fillColor,
@@ -52,7 +53,7 @@ struct ContainerView: View {
                     }
                 ).padding()
                 Button(
-                    action: { viewModel.showTools() },
+                    action: { viewModel.redo() },
                     label: {
                         Image(systemName: "arrow.uturn.forward.circle.fill")
                     }

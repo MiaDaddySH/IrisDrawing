@@ -8,14 +8,16 @@
 import SwiftUI
 
 /// ViewModel for Container scene.
-final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToolDelegate {
+final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToolDelegate, DrawingViewDelegate {
 
     // MARK: - Public Properties
+
     @Published var selectedTool: String = "Pen" {
-    didSet {
-        tool = getRightTool()
+        didSet {
+            tool = getRightTool()
+        }
     }
-}
+
     @Published var tool: DrawingTool?
     @Published var strokeColor = Color.black
     @Published var fillColor = Color.white
@@ -49,6 +51,10 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
 
     // MARK: - External Dependencies
 
+    // MARK: - Private Properties
+
+    private var drawingOperationStack: DrawingOperationStack?
+
     // MARK: - Lifecycle
 
     init(
@@ -57,17 +63,21 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     // MARK: - Public Functions
 
     func onAppear() {}
-    func showTools() {
-    }
+    func showTools() {}
+
     func undo() {
-        
-//        DrawingOperationStack.undo(DrawingOperationStack(drawing: <#Drawing#>))
+        guard let operationStack = drawingOperationStack, operationStack.canUndo else { return }
+        operationStack.undo()
     }
+
     func redo() {
+        guard let operationStack = drawingOperationStack, operationStack.canRedo else { return }
+        operationStack.redo()
     }
-    
-    func delete(){
-        
+
+    func delete() {
+//        guard let operationStack = drawingOperationStack else { return }
+//        operationStack.de()
     }
 
     // MARK: - TextToolDelegate Conformance
@@ -88,16 +98,37 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
         }
     }
 
-    // MARK: - TextToolDelegate Conformance
+    // MARK: - Private Functions
 
-    func selectionToolDidTapOnAlreadySelectedShape(_ shape: ShapeSelectable) {
-//        if shape as? TextShape != nil {
-//          drawingView.set(tool: textTool, shape: shape)
-//        } else {
-//          drawingView.toolSettings.selectedShape = nil
-//        }
-    }
     private func getRightTool() -> DrawingTool? {
         return tools.first(where: { $0.name == selectedTool })
     }
+
+    // MARK: - TextToolDelegate Conformance
+
+    func selectionToolDidTapOnAlreadySelectedShape(_ shape: ShapeSelectable) {
+        print("The selected shape is \(shape)")
+    }
+
+    // MARK: - DrawingViewDelegate Conformance
+
+    func drawingView(didInit drawingOperationStack: DrawingOperationStack) {
+        self.drawingOperationStack = drawingOperationStack
+    }
+
+    func drawingView(didSwitchTo tool: DrawingTool) {}
+
+    func drawingView(didStartDragWith tool: DrawingTool) {}
+
+    func drawingView(didEndDragWith tool: DrawingTool) {}
+
+    func drawingView(didChangeStrokeColor strokeColor: UIColor?) {}
+
+    func drawingView(didChangeFillColor fillColor: UIColor?) {}
+
+    func drawingView(didChangeStrokeWidth strokeWidth: CGFloat) {}
+
+    func drawingView(didChangeFontName fontName: String) {}
+
+    func drawingView(didChangeFontSize fontSize: CGFloat) {}
 }
