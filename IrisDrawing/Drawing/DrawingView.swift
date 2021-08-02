@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 protocol DrawingViewDelegate: AnyObject {
-    func drawingView(didInit drawingOperationStack:DrawingOperationStack)
+    func drawingView(didInit drawingOperationStack: DrawingOperationStack)
 
     func drawingView(didSwitchTo tool: DrawingTool)
     func drawingView(didStartDragWith tool: DrawingTool)
@@ -136,7 +136,9 @@ struct DrawingView: UIViewRepresentable {
 
         func drawsanaView(_ drawsanaView: DrawsanaView, didChangeFontSize fontSize: CGFloat) {}
 
-        func drawsanaView(_ drawsanaView: DrawsanaView, didStartDragWith tool: DrawingTool) {}
+        func drawsanaView(_ drawsanaView: DrawsanaView, didStartDragWith tool: DrawingTool) {
+
+        }
 
         func drawsanaView(_ drawsanaView: DrawsanaView, didEndDragWith tool: DrawingTool) {}
 

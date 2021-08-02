@@ -54,6 +54,7 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     // MARK: - Private Properties
 
     private var drawingOperationStack: DrawingOperationStack?
+    private var selectedShape: ShapeSelectable?
 
     // MARK: - Lifecycle
 
@@ -76,8 +77,8 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     }
 
     func delete() {
-//        guard let operationStack = drawingOperationStack else { return }
-//        operationStack.de()
+        guard let operationStack = drawingOperationStack, let selectedShape = selectedShape else { return }
+        operationStack.apply(operation: RemoveShapeOperation(shape: selectedShape))
     }
 
     // MARK: - TextToolDelegate Conformance
@@ -107,13 +108,18 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     // MARK: - TextToolDelegate Conformance
 
     func selectionToolDidTapOnAlreadySelectedShape(_ shape: ShapeSelectable) {
-        print("The selected shape is \(shape)")
+        print("The selected shape:\(shape)")
+        self.selectedShape = shape
     }
 
     // MARK: - DrawingViewDelegate Conformance
 
     func drawingView(didInit drawingOperationStack: DrawingOperationStack) {
         self.drawingOperationStack = drawingOperationStack
+    }
+
+    func drawingView(didSelected selectedShape: ShapeSelectable?) {
+        
     }
 
     func drawingView(didSwitchTo tool: DrawingTool) {}
