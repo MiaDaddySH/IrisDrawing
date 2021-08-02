@@ -11,21 +11,15 @@ import SwiftUI
 final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToolDelegate {
 
     // MARK: - Public Properties
-
-    @Published var shouldPresentToolsSelection = false
-
-    @Published var toolIndex: Int = 0
-    @Published var colorIndex: Int = 0
-    @Published var selectedTool: String = "" {
-        didSet {
-            tool = getRightTool()
-        }
+    @Published var selectedTool: String = "Pen" {
+    didSet {
+        tool = getRightTool()
     }
-
+}
     @Published var tool: DrawingTool?
-    @Published var strokeColor: UIColor = UIColor.black
-    @Published var fillColor: UIColor = UIColor.white
-    @Published var strokeWidth: CGFloat = 0
+    @Published var strokeColor = Color.black
+    @Published var fillColor = Color.white
+    @Published var strokeWidth: CGFloat = 5
 
     /// Instance of `TextTool` for which we are the delegate, so we can respond
     /// to relevant UI events
@@ -51,6 +45,7 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     ] }()
 
     let strokeWidths: [CGFloat] = [1, 3, 5, 8, 10, 16, 20]
+    let colors: [UIColor] = [.black, .white, .red, .orange, .yellow, .green, .blue, .purple, .brown, .gray]
 
     // MARK: - External Dependencies
 
@@ -62,9 +57,17 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     // MARK: - Public Functions
 
     func onAppear() {}
-
     func showTools() {
-        shouldPresentToolsSelection = true
+    }
+    func undo() {
+        
+//        DrawingOperationStack.undo(DrawingOperationStack(drawing: <#Drawing#>))
+    }
+    func redo() {
+    }
+    
+    func delete(){
+        
     }
 
     // MARK: - TextToolDelegate Conformance
@@ -94,7 +97,6 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
 //          drawingView.toolSettings.selectedShape = nil
 //        }
     }
-
     private func getRightTool() -> DrawingTool? {
         return tools.first(where: { $0.name == selectedTool })
     }

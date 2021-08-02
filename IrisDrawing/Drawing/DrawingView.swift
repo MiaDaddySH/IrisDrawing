@@ -34,16 +34,16 @@ struct DrawingView: UIViewRepresentable {
     private weak var delegate: DrawingViewDelegate?
 
     @Binding var tool: DrawingTool?
-    @Binding var strokeColor: UIColor
-    @Binding var fillColor: UIColor
+    @Binding var strokeColor: Color
+    @Binding var fillColor: Color
     @Binding var strokeWidth: CGFloat
-
+    
     // MARK: - Lifecycle
 
     init(
         tool: Binding<DrawingTool?>,
-        strokeColor: Binding<UIColor>,
-        fillColor: Binding<UIColor>,
+        strokeColor: Binding<Color>,
+        fillColor: Binding<Color>,
         strokeWidth: Binding<CGFloat>
     ) {
         _tool = tool
@@ -57,8 +57,8 @@ struct DrawingView: UIViewRepresentable {
     func makeUIView(context: Context) -> DrawsanaView {
         let drawingView = DrawsanaView()
         drawingView.set(tool: tool ?? PenTool())
-        drawingView.userSettings.strokeColor = strokeColor
-        drawingView.userSettings.fillColor = fillColor
+        drawingView.userSettings.strokeColor = UIColor(strokeColor)
+        drawingView.userSettings.fillColor = UIColor(fillColor)
         drawingView.userSettings.strokeWidth = strokeWidth
         drawingView.userSettings.fontName = "Marker Felt"
         drawingView.delegate = context.coordinator
@@ -68,8 +68,8 @@ struct DrawingView: UIViewRepresentable {
 
     func updateUIView(_ uiView: DrawsanaView, context: Context) {
         uiView.set(tool: tool ?? PenTool())
-        uiView.userSettings.strokeColor = strokeColor
-        uiView.userSettings.fillColor = fillColor
+        uiView.userSettings.strokeColor = UIColor(strokeColor)
+        uiView.userSettings.fillColor = UIColor(fillColor)
         uiView.userSettings.strokeWidth = strokeWidth
     }
 

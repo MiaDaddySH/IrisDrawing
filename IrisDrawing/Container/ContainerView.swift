@@ -10,12 +10,6 @@ struct ContainerView: View {
     // MARK: - External Dependencies
 
     @ObservedObject private var viewModel: ContainerViewModel
-    @State private var shouldPresentTools = false
-
-    @State private var sort: Int = 0
-
-    @State private var selection = ""
-    let colors = ["Red", "Green", "Blue", "Black", "Tartan"]
 
     // MARK: - Lifecycle
 
@@ -52,7 +46,7 @@ struct ContainerView: View {
 
             HStack {
                 Button(
-                    action: { viewModel.showTools() },
+                    action: { viewModel.undo()},
                     label: {
                         Image(systemName: "arrow.uturn.backward.circle.fill")
                     }
@@ -63,19 +57,16 @@ struct ContainerView: View {
                         Image(systemName: "arrow.uturn.forward.circle.fill")
                     }
                 ).padding()
+                
                 Spacer()
-
-                Menu {
-                    Picker(selection: $viewModel.colorIndex, label: Text("Color selection")) {
-                        Text("Size").tag(0)
-                        Text("Date").tag(1)
-                        Text("Location").tag(2)
-                    }
-                }
-                label: {
-                    Image(systemName: "paintpalette.fill")
-                }.padding()
-
+                
+                //stroke color
+                ColorPicker("s", selection: $viewModel.strokeColor)
+                
+                //fill color
+                ColorPicker("f", selection: $viewModel.fillColor)
+                
+                Spacer()
                 Button(
                     action: { viewModel.showTools() },
                     label: {
