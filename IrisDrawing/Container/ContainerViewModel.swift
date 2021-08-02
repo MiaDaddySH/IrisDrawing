@@ -22,6 +22,7 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     @Published var strokeColor = Color.black
     @Published var fillColor = Color.white
     @Published var strokeWidth: CGFloat = 5
+    @Published var shouldPresentReview = false
 
     /// Instance of `TextTool` for which we are the delegate, so we can respond
     /// to relevant UI events
@@ -64,7 +65,9 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     // MARK: - Public Functions
 
     func onAppear() {}
-    func showTools() {}
+    func showReview() {
+        shouldPresentReview = true
+    }
 
     func undo() {
         guard let operationStack = drawingOperationStack, operationStack.canUndo else { return }
@@ -80,6 +83,30 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
         guard let operationStack = drawingOperationStack, let selectedShape = selectedShape else { return }
         operationStack.apply(operation: RemoveShapeOperation(shape: selectedShape))
     }
+
+//    @objc private func viewFinalImage(_ sender: Any?) {
+//      // Dump JSON to console just to demonstrate
+//      let jsonEncoder = JSONEncoder()
+//      jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+//      let jsonData = try! jsonEncoder.encode(drawingView.drawing)
+//      print(String(data: jsonData, encoding: .utf8)!)
+//
+//      // Decode as a sanity check in lieu of unit tests
+//      let jsonDecoder = JSONDecoder()
+//      let _ = try! jsonDecoder.decode(Drawing.self, from: jsonData)
+//
+//      guard
+//        let image = drawingView.render(over: imageView.image),
+//        let data = image.jpegData(compressionQuality: 0.75),
+//        (try? data.write(to: savedImageURL)) != nil else
+//      {
+//        assert(false, "Can't create or save image")
+//        return
+//      }
+//      let vc = QLPreviewController(nibName: nil, bundle: nil)
+//      vc.dataSource = self
+//      present(vc, animated: true, completion: nil)
+//    }
 
     // MARK: - TextToolDelegate Conformance
 

@@ -49,6 +49,8 @@
 		5B0EF85E26B2D68800995C3E /* KeyedDecodingContainer+DrawsanaExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EF83A26B2D68800995C3E /* KeyedDecodingContainer+DrawsanaExtensions.swift */; };
 		5B0EF85F26B2D68800995C3E /* ImmediatePanGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EF83B26B2D68800995C3E /* ImmediatePanGestureRecognizer.swift */; };
 		5B0EF86826B2D72600995C3E /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EF86726B2D72600995C3E /* DrawingView.swift */; };
+		5B501C7426B81E6A00D10DAB /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B501C7326B81E6A00D10DAB /* ReviewView.swift */; };
+		5B501C7D26B81E8100D10DAB /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B501C7C26B81E8100D10DAB /* ReviewViewModel.swift */; };
 		5BE804DA26B3FF9D004B50D4 /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE804D926B3FF9D004B50D4 /* ContainerView.swift */; };
 		5BE804E226B3FFAA004B50D4 /* ContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE804E126B3FFAA004B50D4 /* ContainerViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -120,6 +122,8 @@
 		5B0EF83A26B2D68800995C3E /* KeyedDecodingContainer+DrawsanaExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+DrawsanaExtensions.swift"; sourceTree = "<group>"; };
 		5B0EF83B26B2D68800995C3E /* ImmediatePanGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImmediatePanGestureRecognizer.swift; sourceTree = "<group>"; };
 		5B0EF86726B2D72600995C3E /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		5B501C7326B81E6A00D10DAB /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
+		5B501C7C26B81E8100D10DAB /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
 		5BE804D926B3FF9D004B50D4 /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
 		5BE804E126B3FFAA004B50D4 /* ContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -172,6 +176,7 @@
 		5B0EF7DE26B2D62000995C3E /* IrisDrawing */ = {
 			isa = PBXGroup;
 			children = (
+				5B501C7226B81E5400D10DAB /* Review */,
 				5BE804E626B4038A004B50D4 /* Tools */,
 				5BE804D826B3FF83004B50D4 /* Container */,
 				5B0EF86626B2D70500995C3E /* Drawing */,
@@ -334,6 +339,15 @@
 			path = Drawing;
 			sourceTree = "<group>";
 		};
+		5B501C7226B81E5400D10DAB /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				5B501C7326B81E6A00D10DAB /* ReviewView.swift */,
+				5B501C7C26B81E8100D10DAB /* ReviewViewModel.swift */,
+			);
+			path = Review;
+			sourceTree = "<group>";
+		};
 		5BE804D826B3FF83004B50D4 /* Container */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,6 +499,7 @@
 				5B0EF83F26B2D68800995C3E /* StarTool_PentagonTool_TriangleTool.swift in Sources */,
 				5B0EF84726B2D68800995C3E /* ArrowTool_EllipseTool_LineTool_RectTool.swift in Sources */,
 				5B0EF84D26B2D68800995C3E /* RectShape.swift in Sources */,
+				5B501C7426B81E6A00D10DAB /* ReviewView.swift in Sources */,
 				5B0EF85C26B2D68800995C3E /* CGRect+DrawsanaExtensions.swift in Sources */,
 				5B0EF84026B2D68800995C3E /* AngleTool.swift in Sources */,
 				5B0EF84E26B2D68800995C3E /* TextShape.swift in Sources */,
@@ -494,6 +509,7 @@
 				5B0EF85926B2D68800995C3E /* DrawsanaUtilities.swift in Sources */,
 				5B0EF84B26B2D68800995C3E /* PenShape.swift in Sources */,
 				5B0EF85726B2D68800995C3E /* UserSettings.swift in Sources */,
+				5B501C7D26B81E8100D10DAB /* ReviewViewModel.swift in Sources */,
 				5B0EF84526B2D68800995C3E /* DrawingToolForShapeWithTwoPoints.swift in Sources */,
 				5B0EF84226B2D68800995C3E /* TextShapeEditingView.swift in Sources */,
 				5B0EF84426B2D68800995C3E /* PenTool_EraserTool.swift in Sources */,

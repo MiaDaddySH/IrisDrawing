@@ -20,96 +20,110 @@ struct ContainerView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Button(
-                    action: { viewModel.delete() },
-                    label: {
-                        Image(systemName: "trash.fill")
-                    }
-                ).padding()
-                Spacer()
-                Button(
-                    action: { viewModel.showTools() },
-                    label: {
-                        Image(systemName: "square.and.arrow.down")
-                    }
-                ).padding()
+        NavigationView {
+            VStack(spacing: 0) {
+                topBar
+                DrawingView(
+                    delegate: viewModel,
+                    tool: $viewModel.tool,
+                    strokeColor: $viewModel.strokeColor,
+                    fillColor: $viewModel.fillColor,
+                    strokeWidth: $viewModel.strokeWidth
+                ).background(Image("Goldeck").resizable().aspectRatio(contentMode: .fill))
+                underBar
             }
-
-            DrawingView(
-                delegate:viewModel,
-                tool: $viewModel.tool,
-                strokeColor: $viewModel.strokeColor,
-                fillColor: $viewModel.fillColor,
-                strokeWidth: $viewModel.strokeWidth
-            ).background(Color.green)
-
-            HStack {
-                Button(
-                    action: { viewModel.undo()},
-                    label: {
-                        Image(systemName: "arrow.uturn.backward.circle.fill")
-                    }
-                ).padding()
-                Button(
-                    action: { viewModel.redo() },
-                    label: {
-                        Image(systemName: "arrow.uturn.forward.circle.fill")
-                    }
-                ).padding()
-                
-                Spacer()
-                
-                //stroke color
-                ColorPicker("s", selection: $viewModel.strokeColor)
-                
-                //fill color
-                ColorPicker("f", selection: $viewModel.fillColor)
-                
-                Spacer()
-                Button(
-                    action: { viewModel.showTools() },
-                    label: {
-                        Image(systemName: "arrow.clockwise.circle.fill")
-                    }
-                ).padding()
-
-                Picker(selection: $viewModel.strokeWidth, label: Image(systemName: "pencil.tip.crop.circle")) {
-                    ForEach(viewModel.strokeWidths, id: \.self) {
-                        Text("\(Int($0))")
-                    }
-                }
-                .pickerStyle(MenuPickerStyle())
-                .padding()
-
-                Picker("Tools", selection: $viewModel.selectedTool) {
-                    ForEach(viewModel.tools, id: \.self.name) {
-                        Text($0.name)
-                    }
-                }
-                .pickerStyle(MenuPickerStyle())
-                .padding()
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Menu {
-                    Button(action: {}) {
-                        Label("Create a file", systemImage: "doc")
-                    }
-
-                    Button(action: {}) {
-                        Label("Create a folder", systemImage: "folder")
-                    }
-                }
-                label: {
-                    Label("Add", systemImage: "plus")
-                }
-            }
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
+            .navigationBarBackButtonHidden(true)
         }
     }
+
+    // MARK: - Views
+
+    private var topBar: some View {
+        HStack {
+            Button(
+                action: { viewModel.delete() },
+                label: {
+                    Image(systemName: "trash.fill")
+                }
+            ).padding()
+            Spacer()
+            reviewButton
+        }
+    }
+
+    private var underBar: some View {
+        HStack {
+            Button(
+                action: { viewModel.undo() },
+                label: {
+                    Image(systemName: "arrow.uturn.backward.circle.fill")
+                }
+            ).padding()
+            Button(
+                action: { viewModel.redo() },
+                label: {
+                    Image(systemName: "arrow.uturn.forward.circle.fill")
+                }
+            ).padding()
+
+            Spacer()
+
+            // stroke color
+            ColorPicker("s", selection: $viewModel.strokeColor)
+
+            // fill color
+            ColorPicker("f", selection: $viewModel.fillColor)
+
+            Spacer()
+            Button(
+                action: { viewModel.showReview() },
+                label: {
+                    Image(systemName: "arrow.clockwise.circle.fill")
+                }
+            ).padding()
+
+            Picker(selection: $viewModel.strokeWidth, label: Image(systemName: "pencil.tip.crop.circle")) {
+                ForEach(viewModel.strokeWidths, id: \.self) {
+                    Text("\(Int($0))")
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+            .padding()
+
+            Picker("Tools", selection: $viewModel.selectedTool) {
+                ForEach(viewModel.tools, id: \.self.name) {
+                    Text($0.name)
+                }
+            }
+            .pickerStyle(MenuPickerStyle())
+            .padding()
+        }
+    }
+
+    private var reviewButton: some View {
+        NavigationLink(
+            destination: ReviewView(),
+            isActive: $viewModel.shouldPresentReview
+        ) {
+            Button(
+                action: { viewModel.showReview() },
+                label: {
+                    Image(systemName: "doc.text.fill.viewfinder")
+                }
+            ).padding()
+        }
+    }
+
+//    private var reviewView: AnyView? {
+//        guard let settingViewModel = viewModel.createSettingsViewModel() else { return nil }
+//        return SettingsView(viewModel: settingViewModel)
+//            .asAnyView()
+//    }
 }
+
+// MARK: - Preview
 
 struct ContainerView_Previews: PreviewProvider {
     static var previews: some View {
