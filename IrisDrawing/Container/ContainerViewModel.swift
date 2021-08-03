@@ -23,6 +23,7 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     @Published var fillColor = Color.white
     @Published var strokeWidth: CGFloat = 5
     @Published var shouldPresentReview = false
+    var drawingViewFrame: CGRect?
 
     /// Instance of `TextTool` for which we are the delegate, so we can respond
     /// to relevant UI events
@@ -56,16 +57,22 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
 
     private var drawingOperationStack: DrawingOperationStack?
     private var selectedShape: ShapeSelectable?
+    private var drawingView: DrawsanaView?
+    var selectedImage: UIImage?
+
+    var reviewViewModel = ReviewViewModel(nil)
 
     // MARK: - Lifecycle
 
-    init(
-    ) {}
+    init() {
+        selectedImage = UIImage(named: "Goldeck", in: .irisDrawing, with: nil)
+    }
 
     // MARK: - Public Functions
 
-    func onAppear() {}
-    func showReview() {
+    func showReview(with image: UIImage?) {
+        guard let image = image else { return }
+        viewFinalImage(with: image)
         shouldPresentReview = true
     }
 
@@ -84,29 +91,61 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
         operationStack.apply(operation: RemoveShapeOperation(shape: selectedShape))
     }
 
-//    @objc private func viewFinalImage(_ sender: Any?) {
-//      // Dump JSON to console just to demonstrate
-//      let jsonEncoder = JSONEncoder()
-//      jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-//      let jsonData = try! jsonEncoder.encode(drawingView.drawing)
-//      print(String(data: jsonData, encoding: .utf8)!)
-//
-//      // Decode as a sanity check in lieu of unit tests
-//      let jsonDecoder = JSONDecoder()
-//      let _ = try! jsonDecoder.decode(Drawing.self, from: jsonData)
-//
-//      guard
-//        let image = drawingView.render(over: imageView.image),
-//        let data = image.jpegData(compressionQuality: 0.75),
-//        (try? data.write(to: savedImageURL)) != nil else
-//      {
-//        assert(false, "Can't create or save image")
-//        return
-//      }
-//      let vc = QLPreviewController(nibName: nil, bundle: nil)
-//      vc.dataSource = self
-//      present(vc, animated: true, completion: nil)
-//    }
+    var savedImageURL: URL {
+        return FileManager.default.temporaryDirectory.appendingPathComponent("drawing_demo").appendingPathExtension("jpg")
+    }
+
+    /// Show rendered image in a separate view
+    @objc private func viewFinalImage(with image: UIImage) {
+        // Dump JSON to console just to demonstrate
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let jsonData = try! jsonEncoder.encode(drawingView?.drawing)
+        print(String(data: jsonData, encoding: .utf8)!)
+
+        // Decode as a sanity check in lieu of unit tests
+        let jsonDecoder = JSONDecoder()
+        _ = try! jsonDecoder.decode(Drawing.self, from: jsonData)
+
+        guard
+            let image = render(over: image),
+            let data = image.jpegData(compressionQuality: 0.75),
+            (try? data.write(to: savedImageURL)) != nil
+        else {
+            assert(false, "Can't create or save image")
+            return
+        }
+
+        reviewViewModel = ReviewViewModel(UIImage(data: data))
+    }
+
+    public func render(over image: UIImage?, scale: CGFloat = 0.0) -> UIImage? {
+        guard let drawing = drawingView?.drawing else { return nil }
+        let size = image?.size ?? drawing.size
+        let shapesImage = render(size: size, scale: scale)
+        return DrawsanaUtilities.renderImage(size: size, scale: scale) { (_: CGContext) -> Void in
+            image?.draw(at: .zero)
+            shapesImage?.draw(at: .zero)
+        }
+    }
+
+    /// Render the drawing. If you pass a size, shapes are re-scaled to be full
+    /// resolution at that size, otherwise the view size is used.
+    public func render(size: CGSize? = nil, scale: CGFloat = 0.0) -> UIImage? {
+        guard let drawing = drawingView?.drawing else { return nil }
+        let size = size ?? drawing.size
+        return DrawsanaUtilities.renderImage(size: size, scale: scale) { (context: CGContext) -> Void in
+            context.saveGState()
+            context.scaleBy(
+                x: size.width / drawing.size.width,
+                y: size.height / drawing.size.height
+            )
+            for shape in drawing.shapes {
+                shape.render(in: context)
+            }
+            context.restoreGState()
+        }
+    }
 
     // MARK: - TextToolDelegate Conformance
 
@@ -122,7 +161,7 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
 
     func textToolDidUpdateEditingViewTransform(_ editingView: TextShapeEditingView, transform: ShapeTransform) {
         for control in editingView.controls {
-            control.view.transform = CGAffineTransform(scaleX: 1/transform.scale, y: 1/transform.scale)
+            control.view.transform = CGAffineTransform(scaleX: 1 / transform.scale, y: 1 / transform.scale)
         }
     }
 
@@ -136,18 +175,17 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
 
     func selectionToolDidTapOnAlreadySelectedShape(_ shape: ShapeSelectable) {
         print("The selected shape:\(shape)")
-        self.selectedShape = shape
+        selectedShape = shape
     }
 
     // MARK: - DrawingViewDelegate Conformance
 
-    func drawingView(didInit drawingOperationStack: DrawingOperationStack) {
+    func drawingView(didInit drawingOperationStack: DrawingOperationStack, drawing: DrawsanaView) {
         self.drawingOperationStack = drawingOperationStack
+        drawingView = drawing
     }
 
-    func drawingView(didSelected selectedShape: ShapeSelectable?) {
-        
-    }
+    func drawingView(didSelected selectedShape: ShapeSelectable?) {}
 
     func drawingView(didSwitchTo tool: DrawingTool) {}
 

@@ -51,6 +51,8 @@
 		5B0EF86826B2D72600995C3E /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B0EF86726B2D72600995C3E /* DrawingView.swift */; };
 		5B501C7426B81E6A00D10DAB /* ReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B501C7326B81E6A00D10DAB /* ReviewView.swift */; };
 		5B501C7D26B81E8100D10DAB /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B501C7C26B81E8100D10DAB /* ReviewViewModel.swift */; };
+		5B501C8626B827EA00D10DAB /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B501C8526B827EA00D10DAB /* View.swift */; };
+		5B501C8B26B8321500D10DAB /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B501C8A26B8321500D10DAB /* Bundle.swift */; };
 		5BE804DA26B3FF9D004B50D4 /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE804D926B3FF9D004B50D4 /* ContainerView.swift */; };
 		5BE804E226B3FFAA004B50D4 /* ContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE804E126B3FFAA004B50D4 /* ContainerViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -124,6 +126,8 @@
 		5B0EF86726B2D72600995C3E /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 		5B501C7326B81E6A00D10DAB /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		5B501C7C26B81E8100D10DAB /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
+		5B501C8526B827EA00D10DAB /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		5B501C8A26B8321500D10DAB /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		5BE804D926B3FF9D004B50D4 /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
 		5BE804E126B3FFAA004B50D4 /* ContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -176,6 +180,7 @@
 		5B0EF7DE26B2D62000995C3E /* IrisDrawing */ = {
 			isa = PBXGroup;
 			children = (
+				5B501C8426B827DE00D10DAB /* Extension */,
 				5B501C7226B81E5400D10DAB /* Review */,
 				5BE804E626B4038A004B50D4 /* Tools */,
 				5BE804D826B3FF83004B50D4 /* Container */,
@@ -348,6 +353,15 @@
 			path = Review;
 			sourceTree = "<group>";
 		};
+		5B501C8426B827DE00D10DAB /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5B501C8526B827EA00D10DAB /* View.swift */,
+				5B501C8A26B8321500D10DAB /* Bundle.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		5BE804D826B3FF83004B50D4 /* Container */ = {
 			isa = PBXGroup;
 			children = (
@@ -505,6 +519,7 @@
 				5B0EF84E26B2D68800995C3E /* TextShape.swift in Sources */,
 				5B0EF86826B2D72600995C3E /* DrawingView.swift in Sources */,
 				5B0EF85F26B2D68800995C3E /* ImmediatePanGestureRecognizer.swift in Sources */,
+				5B501C8626B827EA00D10DAB /* View.swift in Sources */,
 				5B0EF7E226B2D62000995C3E /* ContentView.swift in Sources */,
 				5B0EF85926B2D68800995C3E /* DrawsanaUtilities.swift in Sources */,
 				5B0EF84B26B2D68800995C3E /* PenShape.swift in Sources */,
@@ -533,6 +548,7 @@
 				5B0EF7E026B2D62000995C3E /* IrisDrawingApp.swift in Sources */,
 				5B0EF85E26B2D68800995C3E /* KeyedDecodingContainer+DrawsanaExtensions.swift in Sources */,
 				5B0EF85D26B2D68800995C3E /* UIColor+DrawsanaExtensions.swift in Sources */,
+				5B501C8B26B8321500D10DAB /* Bundle.swift in Sources */,
 				5B0EF84626B2D68800995C3E /* DrawingToolForShapeWithThreePoints.swift in Sources */,
 				5B0EF85426B2D68800995C3E /* DrawingOperationStack.swift in Sources */,
 			);

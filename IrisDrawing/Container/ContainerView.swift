@@ -23,13 +23,7 @@ struct ContainerView: View {
         NavigationView {
             VStack(spacing: 0) {
                 topBar
-                DrawingView(
-                    delegate: viewModel,
-                    tool: $viewModel.tool,
-                    strokeColor: $viewModel.strokeColor,
-                    fillColor: $viewModel.fillColor,
-                    strokeWidth: $viewModel.strokeWidth
-                ).background(Image("Goldeck").resizable().aspectRatio(contentMode: .fill))
+                drawingView
                 underBar
             }
             .navigationBarTitle("")
@@ -39,6 +33,21 @@ struct ContainerView: View {
     }
 
     // MARK: - Views
+
+    private var drawingView: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .center) {
+                resizedImage(for: geo)
+                DrawingView(
+                    delegate: viewModel,
+                    tool: $viewModel.tool,
+                    strokeColor: $viewModel.strokeColor,
+                    fillColor: $viewModel.fillColor,
+                    strokeWidth: $viewModel.strokeWidth
+                ).frame(height: geo.size.height)
+            }
+        }
+    }
 
     private var topBar: some View {
         HStack {
@@ -61,6 +70,7 @@ struct ContainerView: View {
                     Image(systemName: "arrow.uturn.backward.circle.fill")
                 }
             ).padding()
+            
             Button(
                 action: { viewModel.redo() },
                 label: {
@@ -68,21 +78,13 @@ struct ContainerView: View {
                 }
             ).padding()
 
-            Spacer()
-
             // stroke color
-            ColorPicker("s", selection: $viewModel.strokeColor)
+            ColorPicker("", selection: $viewModel.strokeColor)
+                .padding()
 
             // fill color
-            ColorPicker("f", selection: $viewModel.fillColor)
-
-            Spacer()
-            Button(
-                action: { viewModel.showReview() },
-                label: {
-                    Image(systemName: "arrow.clockwise.circle.fill")
-                }
-            ).padding()
+            ColorPicker("", selection: $viewModel.fillColor)
+                .padding()
 
             Picker(selection: $viewModel.strokeWidth, label: Image(systemName: "pencil.tip.crop.circle")) {
                 ForEach(viewModel.strokeWidths, id: \.self) {
@@ -92,7 +94,7 @@ struct ContainerView: View {
             .pickerStyle(MenuPickerStyle())
             .padding()
 
-            Picker("Tools", selection: $viewModel.selectedTool) {
+            Picker(selection: $viewModel.selectedTool, label: Image(systemName: "scribble.variable")) {
                 ForEach(viewModel.tools, id: \.self.name) {
                     Text($0.name)
                 }
@@ -104,11 +106,14 @@ struct ContainerView: View {
 
     private var reviewButton: some View {
         NavigationLink(
-            destination: ReviewView(),
+            destination: ReviewView(viewModel: viewModel.reviewViewModel),
             isActive: $viewModel.shouldPresentReview
         ) {
             Button(
-                action: { viewModel.showReview() },
+                action: {
+                    let screenshot = drawingView.takeScreenshot(origin: viewModel.drawingViewFrame!.origin, size: viewModel.drawingViewFrame!.size)
+                    viewModel.showReview(with: screenshot)
+                },
                 label: {
                     Image(systemName: "doc.text.fill.viewfinder")
                 }
@@ -116,11 +121,16 @@ struct ContainerView: View {
         }
     }
 
-//    private var reviewView: AnyView? {
-//        guard let settingViewModel = viewModel.createSettingsViewModel() else { return nil }
-//        return SettingsView(viewModel: settingViewModel)
-//            .asAnyView()
-//    }
+    // MARK: - Private Functions
+
+    private func resizedImage(for metrics: GeometryProxy) -> some View {
+        let image = Image(uiImage: viewModel.selectedImage!).resizable().aspectRatio(contentMode: .fit)
+        let size = CGSize(width: metrics.size.width,
+                          height: metrics.size.height)
+        viewModel.drawingViewFrame = metrics.frame(in: .global)
+        return image
+            .frame(width: size.width, height: size.height)
+    }
 }
 
 // MARK: - Preview

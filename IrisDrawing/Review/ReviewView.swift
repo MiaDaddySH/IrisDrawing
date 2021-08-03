@@ -8,13 +8,31 @@
 import SwiftUI
 
 struct ReviewView: View {
+    // MARK: - External Dependencies
+
+    @ObservedObject private var viewModel: ReviewViewModel
+
+    // MARK: - Lifecycle
+
+    init(viewModel: ReviewViewModel) {
+        self.viewModel = viewModel
+    }
+
+    // MARK: - Body
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        return GeometryReader { geo in
+            ZStack(alignment: .topLeading) {
+                Image(uiImage: viewModel.image!).resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: geo.size.height)
+            }
+        }
     }
 }
 
 struct ReviewView_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewView()
+        ReviewView(viewModel: ReviewViewModel(nil))
     }
 }
