@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -53,6 +53,9 @@
 		5B501C7D26B81E8100D10DAB /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B501C7C26B81E8100D10DAB /* ReviewViewModel.swift */; };
 		5B501C8626B827EA00D10DAB /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B501C8526B827EA00D10DAB /* View.swift */; };
 		5B501C8B26B8321500D10DAB /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B501C8A26B8321500D10DAB /* Bundle.swift */; };
+		5B7CA78426B9941C004F9396 /* ImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B7CA78326B9941C004F9396 /* ImageCropper.swift */; };
+		5B7CA78626B99525004F9396 /* Mantis.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7CA78526B99525004F9396 /* Mantis.xcframework */; };
+		5B7CA78726B99525004F9396 /* Mantis.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7CA78526B99525004F9396 /* Mantis.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5BE804DA26B3FF9D004B50D4 /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE804D926B3FF9D004B50D4 /* ContainerView.swift */; };
 		5BE804E226B3FFAA004B50D4 /* ContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE804E126B3FFAA004B50D4 /* ContainerViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -73,6 +76,20 @@
 			remoteInfo = IrisDrawing;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5B3A473426B9894300AFD547 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5B7CA78726B99525004F9396 /* Mantis.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5B0EF7DC26B2D62000995C3E /* IrisDrawing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IrisDrawing.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +145,8 @@
 		5B501C7C26B81E8100D10DAB /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
 		5B501C8526B827EA00D10DAB /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		5B501C8A26B8321500D10DAB /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
+		5B7CA78326B9941C004F9396 /* ImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
+		5B7CA78526B99525004F9396 /* Mantis.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = Mantis.xcframework; path = Carthage/Build/Mantis.xcframework; sourceTree = "<group>"; };
 		5BE804D926B3FF9D004B50D4 /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
 		5BE804E126B3FFAA004B50D4 /* ContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,6 +156,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B7CA78626B99525004F9396 /* Mantis.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +184,7 @@
 				5B0EF7F026B2D62200995C3E /* IrisDrawingTests */,
 				5B0EF7FB26B2D62200995C3E /* IrisDrawingUITests */,
 				5B0EF7DD26B2D62000995C3E /* Products */,
+				5B3A472C26B9892A00AFD547 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -180,6 +201,7 @@
 		5B0EF7DE26B2D62000995C3E /* IrisDrawing */ = {
 			isa = PBXGroup;
 			children = (
+				5B7CA78026B98ACB004F9396 /* Cropping */,
 				5B501C8426B827DE00D10DAB /* Extension */,
 				5B501C7226B81E5400D10DAB /* Review */,
 				5BE804E626B4038A004B50D4 /* Tools */,
@@ -344,6 +366,14 @@
 			path = Drawing;
 			sourceTree = "<group>";
 		};
+		5B3A472C26B9892A00AFD547 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5B7CA78526B99525004F9396 /* Mantis.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5B501C7226B81E5400D10DAB /* Review */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +390,14 @@
 				5B501C8A26B8321500D10DAB /* Bundle.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		5B7CA78026B98ACB004F9396 /* Cropping */ = {
+			isa = PBXGroup;
+			children = (
+				5B7CA78326B9941C004F9396 /* ImageCropper.swift */,
+			);
+			path = Cropping;
 			sourceTree = "<group>";
 		};
 		5BE804D826B3FF83004B50D4 /* Container */ = {
@@ -388,6 +426,7 @@
 				5B0EF7D826B2D62000995C3E /* Sources */,
 				5B0EF7D926B2D62000995C3E /* Frameworks */,
 				5B0EF7DA26B2D62000995C3E /* Resources */,
+				5B3A473426B9894300AFD547 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -534,6 +573,7 @@
 				5B0EF84A26B2D68800995C3E /* LineShape.swift in Sources */,
 				5B0EF85026B2D68800995C3E /* EllipseShape.swift in Sources */,
 				5B0EF84826B2D68800995C3E /* Shape.swift in Sources */,
+				5B7CA78426B9941C004F9396 /* ImageCropper.swift in Sources */,
 				5BE804DA26B3FF9D004B50D4 /* ContainerView.swift in Sources */,
 				5B0EF84F26B2D68800995C3E /* StarShape.swift in Sources */,
 				5B0EF85626B2D68800995C3E /* ToolOperationContext.swift in Sources */,
@@ -711,6 +751,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"IrisDrawing/Preview Content\"";
 				DEVELOPMENT_TEAM = JND9XWCEGQ;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = IrisDrawing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -733,6 +777,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"IrisDrawing/Preview Content\"";
 				DEVELOPMENT_TEAM = JND9XWCEGQ;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = IrisDrawing/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (

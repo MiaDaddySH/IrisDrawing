@@ -12,8 +12,7 @@ final class ReviewViewModel: ObservableObject {
 
     // MARK: - Public Properties
 
-    @Published var shouldPresentReview = false
-    @Published var image: UIImage?
+    @Published var image: UIImage
 
     // MARK: - External Dependencies
 
@@ -24,7 +23,7 @@ final class ReviewViewModel: ObservableObject {
 
     // MARK: - Lifecycle
 
-    init(_ image: UIImage?) {
+    init(_ image: UIImage) {
         self.image = image
     }
 

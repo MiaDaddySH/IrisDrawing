@@ -19,9 +19,9 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     }
 
     @Published var tool: DrawingTool?
-    @Published var strokeColor = Color.black
-    @Published var fillColor = Color.white
-    @Published var strokeWidth: CGFloat = 5
+    @Published var strokeColor = Color.red
+    @Published var fillColor = Color.green
+    @Published var strokeWidth: CGFloat = 3
     @Published var shouldPresentReview = false
     var drawingViewFrame: CGRect?
 
@@ -49,7 +49,6 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     ] }()
 
     let strokeWidths: [CGFloat] = [1, 3, 5, 8, 10, 16, 20]
-    let colors: [UIColor] = [.black, .white, .red, .orange, .yellow, .green, .blue, .purple, .brown, .gray]
 
     // MARK: - External Dependencies
 
@@ -60,7 +59,7 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
     private var drawingView: DrawsanaView?
     var selectedImage: UIImage?
 
-    var reviewViewModel = ReviewViewModel(nil)
+    var reviewViewModel = ReviewViewModel(UIImage(named: "Goldeck", in: .irisDrawing, with: nil)!)
 
     // MARK: - Lifecycle
 
@@ -116,7 +115,7 @@ final class ContainerViewModel: ObservableObject, TextToolDelegate, SelectionToo
             return
         }
 
-        reviewViewModel = ReviewViewModel(UIImage(data: data))
+        reviewViewModel = ReviewViewModel(UIImage(data: data)!)
     }
 
     public func render(over image: UIImage?, scale: CGFloat = 0.0) -> UIImage? {
